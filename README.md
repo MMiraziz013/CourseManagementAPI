@@ -25,7 +25,7 @@ The project also demonstrates clean architecture principles, async/await usage, 
 * **Swagger / OpenAPI** – API documentation & testing 
 * **Async/Await** – asynchronous database queries for scalability
 
-**Clean Architecture – separation of concerns with Application, Infrastructure, and API layers**
+**Clean Architecture – separation of concerns with Application, Infrastructure, Domain, and API layers**
 
 ----
 

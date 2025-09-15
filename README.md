@@ -4,7 +4,7 @@
 
 ## 🎯 Project Goal
 
-The Course Management API is a learning project built to practice ASP.NET Core Web API, PostgreSQL, and Dapper ORM.
+The Course Management API is a learning project built to practice ASP.NET Core Web API, PostgreSQL, Dapper ORM and Serilog logger.
 It simulates a small education management system where administrators can manage:
 
 Students 👨‍🎓

@@ -13,7 +13,10 @@ public static class DependencyInjection
         services.AddTransient<IPaymentService, PaymentService>();
         services.AddTransient<ICourseService, CourseService>();
         services.AddTransient<IAttendanceService, AttendanceService>();
-        
+        services.AddScoped<IScopedService, ScopedService>();
+        services.AddTransient<ITransientService, TransientService>();
+        services.AddSingleton<ISingletonService, SingletonService>();
+        services.AddTransient<IQrCodeService, QrCodeService>();
         return services;
     }
 }

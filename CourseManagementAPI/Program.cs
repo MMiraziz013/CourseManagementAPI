@@ -2,9 +2,11 @@ using System.Net;
 using Clean.Application;
 using Clean.Infrastructure;
 using Clean.Infrastructure.Data;
+using CourseManagementAPI.Middlewares;
 using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Scalar.AspNetCore;
+using Serilog;
 
 namespace CourseManagementAPI;
 
@@ -12,13 +14,24 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        // Configurations of the Serilog before app builds
+        Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+        
         var builder = WebApplication.CreateBuilder(args);
+        
+        // Replacing the default .NET logger with Serilog
+        builder.Host.UseSerilog();
 
         // Add services to the container.
         // The service registrations are now handled by extension methods.
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices();
-
+        builder.Services.AddTransient<LoggingMiddleware>();
+        
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

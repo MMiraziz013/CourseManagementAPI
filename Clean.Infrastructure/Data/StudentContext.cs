@@ -66,4 +66,27 @@ public class StudentContext : IStudentContext
             return list.ToList();
         }
     }
+
+    public async Task<StudentDto> GetByIdAsync(int id)
+    {
+        using (var conn = _context.GetConnection())
+        {
+            var sql = """
+                      select 
+                      s.id as Id,
+                      s.fullname as FullName,
+                      s.phone as Phone,
+                      g.groupname as GroupName,
+                      c.title as CourseName
+                      from studentgroups
+                      left join students as s on studentgroups.studentid = s.id
+                      left join groups as g on studentgroups.groupid = g.id
+                      left join courses as c on g.courseid = c.id
+                      where s.id = @Id
+                      group by s.fullname, s.id, s.phone, g.groupname, c.title
+                      """;
+            var st = await conn.QueryFirstOrDefaultAsync<StudentDto>(sql, new { Id = id });
+            return st;
+        }
+    }
 }

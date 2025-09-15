@@ -24,4 +24,10 @@ public class StudentService : IStudentService
         var response = await _studentContext.SearchStudentsAsync(studentSearchDto);
         return new Response<List<StudentFilterDto>>(response);
     }
+
+    public async Task<Response<StudentDto>> GetByIdAsync(int id)
+    {
+        var response = await _studentContext.GetByIdAsync(id);
+        return new Response<StudentDto>(response);
+    }
 }

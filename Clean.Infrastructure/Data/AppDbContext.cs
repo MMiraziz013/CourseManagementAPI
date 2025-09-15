@@ -6,7 +6,7 @@ namespace Clean.Infrastructure.Data;
 public class AppDbContext : IAppDbContext
 {
     private string _connectionString =
-        "Server=localhost; Port=5432;Database=course_db;User Id=postgres; Password=Mm1311Scorpio$";
+        "Server=localhost; Port=5432;Database=course_db;User Id=postgres; Password=YOUR PASSWORD";
     
     public NpgsqlConnection GetConnection()
     {

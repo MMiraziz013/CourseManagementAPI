@@ -24,6 +24,7 @@ The project also demonstrates clean architecture principles, async/await usage, 
 * **Dapper ORM** – lightweight, fast data access with SQL 
 * **Swagger / OpenAPI** – API documentation & testing 
 * **Async/Await** – asynchronous database queries for scalability
+*  **Serilog** - middleware to log requests and responses into daily files, and console.
 
 **Clean Architecture – separation of concerns with Application, Infrastructure, Domain, and API layers**
 

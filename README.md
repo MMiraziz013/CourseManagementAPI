@@ -205,9 +205,9 @@ http://localhost:xxxx/swagger
 ![Accessing methods without a role](CourseManagementAPI/Assets/role-none.jpg)
 
 ### * Sending a request during the night time:
-* URL:
+* URL:http://localhost:5165/Student
 ![Accessing methods during the night time](CourseManagementAPI/Assets/access-night-time.png)
 
 ### * Sending a request during the day time:
-* URL:
+* URL:http://localhost:5165/Student
 ![Accessing methods during the day time](CourseManagementAPI/Assets/access-day-time.png)

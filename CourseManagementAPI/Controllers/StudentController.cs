@@ -38,7 +38,7 @@ public class StudentController : Controller
         // 1. Find student in DB
         var student = await _studentService.GetByIdAsync(id);
         string logoPath = Path.Combine(AppContext.BaseDirectory, "Assets", "My_Logo.png");
-        if (student == null)
+        if (student.Data == null)
             return NotFound($"Student with ID {id} not found.");
 
         // 2. Build the URL for the QR code
@@ -51,5 +51,11 @@ public class StudentController : Controller
 
         // 4. Return QR image
         return File(qrBytes, "image/png");
+    }
+
+    [HttpGet("exception-test")]
+    public IActionResult TestException()
+    {
+        throw new Exception("Custom made exception to test exception handling middleware");
     }
 }

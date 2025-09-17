@@ -170,3 +170,44 @@ http://localhost:xxxx/swagger
 
 
 **✅ With this setup, you can test all API methods via Swagger or Postman.**
+
+------
+## Examples of Requests
+
+### * Sending a GET request with the api key:
+* URL:http://localhost:5165/Student/exception-test
+![Accessing methods with the wrong api-key](CourseManagementAPI/Assets/with-api-key.jpg)
+
+### * Sending a GET request with the wrong api key:
+* URL:http://localhost:5165/Student/exception-test
+![Accessing methods with the wrong api-key](CourseManagementAPI/Assets/wrong-api-key.jpg)
+
+
+### * Sending a GET request without api key:
+* URL:http://localhost:5165/Student/exception-test
+![Accessing methods without api-key](CourseManagementAPI/Assets/no-api-key.jpg)
+
+
+### * Sending a GET request to check the global error handler:
+* URL: http://localhost:5165/Student/exception-test
+![Checking global exception handling](CourseManagementAPI/Assets/exception-handler.jpg)
+
+
+### * Sending a POST request to get QR code of a webpage with the **admin** role:
+* URL: http://localhost:5165/Qr/qrcode?url=https%3A%2F%2Fgithub.com%2FMMiraziz013%2FCourseManagementAPI
+![Accessing methods with Admin role](CourseManagementAPI/Assets/role-admin.jpg)
+
+### * Sending a POST request to get QR code of a webpage with the **user** role: 
+* URL: http://localhost:5165/Qr/qrcode?url=https%3A%2F%2Fgithub.com%2FMMiraziz013%2FCourseManagementAPI
+![Accessing methods with User role](CourseManagementAPI/Assets/role-user.jpg)
+### * Sending a POST request to get QR code of a webpage without a role: 
+* URL: http://localhost:5165/Qr/qrcode?url=https%3A%2F%2Fgithub.com%2FMMiraziz013%2FCourseManagementAPI
+![Accessing methods without a role](CourseManagementAPI/Assets/role-none.jpg)
+
+### * Sending a request during the night time:
+* URL:
+![Accessing methods during the night time](CourseManagementAPI/Assets/access-night-time.png)
+
+### * Sending a request during the day time:
+* URL:
+![Accessing methods during the day time](CourseManagementAPI/Assets/access-day-time.png)

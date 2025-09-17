@@ -5,6 +5,7 @@ using Clean.Infrastructure.Data;
 using CourseManagementAPI.Middlewares;
 using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -30,14 +31,48 @@ public class Program
         // The service registrations are now handled by extension methods.
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices();
-        builder.Services.AddTransient<LoggingMiddleware>();
-        
+        builder.Services.AddMiddlewares();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+                {
+                    Description = "Enter API Key into the field below",
+                    Name = "X-API-KEY",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "ApiKeyScheme"
+                }
+            );
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "ApiKey"
+                        },
+                        Scheme = "ApiKeyScheme",
+                        Name = "X-API-KEY",
+                        In = ParameterLocation.Header
+                    },
+                    new List<string>()
+                }
+            });
+            
+                
+        });
         builder.Services.AddOpenApi();
 
         var app = builder.Build();
+
+        app.UseMiddleware<ErrorHandlingMiddleware>();
+        //TODO: Uncomment after implementing NightModeMiddleware
+        //app.UseMiddleware<NightModeMiddleware>();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -55,45 +90,15 @@ public class Program
             {
                 options.WithOpenApiRoutePattern("/swagger/v1/swagger.json");
             });
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/error");
         }
 
         SqlMapper.AddTypeHandler(new DateOnlyHandler());
         app.UseHttpsRedirection();
         app.UseAuthorization();
-        
-
+        app.UseMiddleware<ApiAccessMiddleware>();
+        app.UseMiddleware<AuthorizationMiddleware>();
+        app.UseMiddleware<NightModeMiddleware>();
         app.MapControllers();
-
-        app.Map("/error", (HttpContext context) =>
-        {
-            var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-            var exception = exceptionHandlerPathFeature?.Error;
-
-            var statusCode = (int)HttpStatusCode.InternalServerError;
-            var title = "An unexpected error occurred.";
-
-            if (exception is ArgumentException || exception is System.ComponentModel.DataAnnotations.ValidationException)
-            {
-                statusCode = (int)HttpStatusCode.BadRequest;
-                title = "Invalid input.";
-            }
-            else if (exception is ArgumentOutOfRangeException)
-            {
-                statusCode = (int)HttpStatusCode.NotFound;
-                title = "The requested resource was not found.";
-            }
-
-            return Results.Problem(
-                title: title,
-                statusCode: statusCode,
-                detail: exception?.Message
-            );
-        });
 
         app.Run();
     }

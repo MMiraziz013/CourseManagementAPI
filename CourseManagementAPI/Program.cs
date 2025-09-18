@@ -46,23 +46,23 @@ public class Program
                 }
             );
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "ApiKey"
-                        },
-                        Scheme = "ApiKeyScheme",
-                        Name = "X-API-KEY",
-                        In = ParameterLocation.Header
-                    },
-                    new List<string>()
-                }
-            });
+            // c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            // {
+            //     {
+            //         new OpenApiSecurityScheme
+            //         {
+            //             Reference = new OpenApiReference
+            //             {
+            //                 Type = ReferenceType.SecurityScheme,
+            //                 Id = "ApiKey"
+            //             },
+            //             Scheme = "ApiKeyScheme",
+            //             Name = "X-API-KEY",
+            //             In = ParameterLocation.Header
+            //         },
+            //         new List<string>()
+            //     }
+            // });
             
                 
         });
@@ -95,8 +95,9 @@ public class Program
         SqlMapper.AddTypeHandler(new DateOnlyHandler());
         app.UseHttpsRedirection();
         app.UseAuthorization();
-        app.UseMiddleware<ApiAccessMiddleware>();
-        app.UseMiddleware<AuthorizationMiddleware>();
+        app.UseStaticFiles();
+        // app.UseMiddleware<ApiAccessMiddleware>();
+        // app.UseMiddleware<AuthorizationMiddleware>();
         app.UseMiddleware<NightModeMiddleware>();
         app.MapControllers();
 

@@ -13,6 +13,7 @@ public static class DependencyInjection
         services.AddTransient<IPaymentContext, PaymentContext>();
         services.AddTransient<ICourseContext, CourseContext>();
         services.AddTransient<IAttendanceContext, AttendanceContext>();
+        services.AddTransient<IStudentProfileContext, StudentProfileContext>();
         return services;
     }
 }

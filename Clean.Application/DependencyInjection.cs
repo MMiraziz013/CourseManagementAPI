@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddTransient<ITransientService, TransientService>();
         services.AddSingleton<ISingletonService, SingletonService>();
         services.AddTransient<IQrCodeService, QrCodeService>();
+        services.AddTransient<IStudentProfileService, StudentProfileService>();
         return services;
     }
 }
